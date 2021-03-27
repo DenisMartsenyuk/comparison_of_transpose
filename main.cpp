@@ -5,7 +5,7 @@
 
 template <class T>
 double test(TransposeMatricesGPU *transposeMatricesGpu, std::pair<std::string, std::string> *kernel, T *matrix, T *resultKernel) {
-//    double gFlopsVariable = (ROWS * COLUMNS * GENERAL_SIZE * 2) * 1.0 / (1000 * 1000 * 1000);
+    double variable = (ROWS * COLUMNS * 2 * sizeof(T)) * 1.0 / 1024 * 1024 * 1024 / THROUGHTPUT_MEMORY * 100;
 
     MatrixOperations::generateMatrix(matrix, ROWS, COLUMNS);
 
@@ -13,10 +13,10 @@ double test(TransposeMatricesGPU *transposeMatricesGpu, std::pair<std::string, s
     transposeMatricesGpu->setArgs(matrix, ROWS, COLUMNS);
     transposeMatricesGpu->executeKernel();
     std::cout << kernel->second << " multiplication time: " << transposeMatricesGpu->getExecutionTime() << " milliseconds" << std::endl;
-//    std::cout << kernel->second << " GFLOPS: " << gFlopsVariable / (transposeMatricesGpu->getExecutionTime() / 1000) << std::endl;
+    std::cout << kernel->second << " Что-то: " << variable / (transposeMatricesGpu->getExecutionTime() / 1000) << std::endl;
     transposeMatricesGpu->getResult(resultKernel, ROWS, COLUMNS);
 
-    return  (transposeMatricesGpu->getExecutionTime() / 1000);
+    return variable / (transposeMatricesGpu->getExecutionTime() / 1000);
 }
 
 int main() {
@@ -59,11 +59,6 @@ int main() {
 
     for (int i = 0; i < resultGFLOPS.size(); ++i) {
         std::cout << resultGFLOPS[i].first << " average value GFLOPS: " << resultGFLOPS[i].second / NUMBER_OF_MEASUREMENTS << std::endl;
-        if (kernels[i].first == "float") {
-            std::cout << "Percentage of theoretical performance: " << THEORETICAL_PERFORMANCE_FLOAT / 100.0 * resultGFLOPS[i].second / NUMBER_OF_MEASUREMENTS  << " %" << std::endl;
-        } else if (kernels[i].first == "double") {
-            std::cout << "Percentage of theoretical performance: " << THEORETICAL_PERFORMANCE_DOUBLE / 100.0 * resultGFLOPS[i].second / NUMBER_OF_MEASUREMENTS  << " %" << std::endl;
-        }
     }
 
     return 0;
