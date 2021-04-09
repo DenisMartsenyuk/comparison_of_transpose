@@ -8,8 +8,8 @@
 #define NUMBER_OF_MEASUREMENTS 5
 #define NUMBER_OF_IDENTICAL_MEASUREMENTS 10
 
-#define ROWS 4096
-#define COLUMNS 4096
+#define ROWS 8192
+#define COLUMNS 8192
 
 #define DEVICE_NUMBER 2
 #define PATH_TO_KERNEL_FILE "/Users/mega_user/Desktop/GPU /comparison_of_transpose/kernels/transpose.cl"
