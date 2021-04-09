@@ -2,12 +2,6 @@
 // Created by Денис Марценюк on 27.03.2021.
 //
 
-#include "TransposeMatricesGPU.h"
-
-//
-// Created by Денис Марценюк on 19.03.2021.
-//
-
 #include <iostream>
 #include "TransposeMatricesGPU.h"
 
@@ -72,8 +66,8 @@ void TransposeMatricesGPU::setKernel(std::string nameKernel) {
 }
 
 void TransposeMatricesGPU::executeKernel() {
-    queue.enqueueNDRangeKernel(kernel, cl::NullRange, workItems,  workGroup, NULL, &event);
-    queue.finish();
+    CL_CHECK(queue.enqueueNDRangeKernel(kernel, cl::NullRange, workItems,  workGroup, NULL, &event));
+    CL_CHECK(queue.finish());
 }
 
 double TransposeMatricesGPU::getExecutionTime() {

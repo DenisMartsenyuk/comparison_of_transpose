@@ -5,7 +5,8 @@
 #ifndef COMPARISON_OF_MULTIPLICATIONS_CONFIG_H
 #define COMPARISON_OF_MULTIPLICATIONS_CONFIG_H
 
-#define NUMBER_OF_MEASUREMENTS 10
+#define NUMBER_OF_MEASUREMENTS 5
+#define NUMBER_OF_IDENTICAL_MEASUREMENTS 10
 
 #define ROWS 4096
 #define COLUMNS 4096
@@ -14,7 +15,9 @@
 #define PATH_TO_KERNEL_FILE "/Users/mega_user/Desktop/GPU /comparison_of_transpose/kernels/transpose.cl"
 #define WORK_GROUP_ROWS 16
 #define WORK_GROUP_COLUMNS 16
-#define THROUGHTPUT_MEMORY 81.6
+
+#define NAME_REFERENCE_KERNEL_FLOAT "simple_transpose_float"
+#define NAME_REFERENCE_KERNEL_DOUBLE "simple_transpose_double"
 
 #define NAME_KERNEL_1 "simple_transpose_float"
 #define TYPE_KERNEL_1 "float"

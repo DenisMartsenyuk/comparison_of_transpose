@@ -27,24 +27,27 @@ public:
 template<class T>
 void MatrixOperations::generateMatrix(T *matrix, int rows, int columns) {
     srand(time(0));
+    int counter = 0;
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < columns; j++) {
             matrix[i * columns + j] = rand() / (T)RAND_MAX;
+//            matrix[i * columns + j] = counter; //todo  проверяй всегда
+            counter++;
         }
     }
 }
 
 template<class T>
 bool MatrixOperations::compareMatrices(T *matrixA, T *matrixB, int rows, int columns) {
-    int counter = 0;
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < columns; j++) {
-            if (abs(matrixA[i * columns + j] - matrixB[i * columns + j]) <= 0.00000001) {
-                counter ++;
+            if (abs(matrixA[i * columns + j] - matrixB[i * columns + j]) > 0.01) {
+                std::cout << "True: " << matrixA[i * columns + j] << " Nottrue " << matrixB[i * columns + j] << std::endl;
+                return false;
             }
         }
     }
-    return counter == rows * columns;
+    return true;
 }
 
 template<class T>

@@ -10,6 +10,8 @@
 #include "libraries/cl2.hpp"
 #include <fstream>
 
+#define CL_CHECK(error) if (error) {std::cout << "Error in line: " << __LINE__ << std::endl; exit(1);}
+
 class TransposeMatricesGPU {
 private:
     cl::Device device;
@@ -20,7 +22,6 @@ private:
     cl::Kernel kernel;
     cl::CommandQueue queue;
     cl::Buffer bufferMatrix;
-    cl::Buffer bufferB;
     cl::Buffer bufferResult;
     cl::Event event;
 
@@ -57,18 +58,18 @@ template<class T>
 void TransposeMatricesGPU::setArgs(T *matrix, int rows,
                                    int columns) {
     createBuffersAndQueue<T>(rows, columns);
-    queue.enqueueWriteBuffer(bufferMatrix, CL_TRUE, 0, sizeof(T) * rows * columns, &matrix[0]);
-    queue.finish();
-    kernel.setArg(0, bufferMatrix);
-    kernel.setArg(1, bufferResult);
-    kernel.setArg(2, sizeof(int), &rows);
-    kernel.setArg(3, sizeof(int), &columns);
+    CL_CHECK(queue.enqueueWriteBuffer(bufferMatrix, CL_TRUE, 0, sizeof(T) * rows * columns, &matrix[0]));
+    CL_CHECK(queue.finish());
+    CL_CHECK(kernel.setArg(0, bufferMatrix));
+    CL_CHECK(kernel.setArg(1, bufferResult));
+    CL_CHECK(kernel.setArg(2, sizeof(int), &rows));
+    CL_CHECK(kernel.setArg(3, sizeof(int), &columns));
 
 }
 
 template<class T>
 void TransposeMatricesGPU::getResult(T *matrixResult, int rows, int columns) {
-    queue.enqueueReadBuffer(bufferResult, CL_TRUE, 0, sizeof(T) * rows * columns, &matrixResult[0]);
+    CL_CHECK(queue.enqueueReadBuffer(bufferResult, CL_TRUE, 0, sizeof(T) * rows * columns, &matrixResult[0]));
 }
 
 #endif //COMPARISON_OF_TRANSPOSE_TRANSPOSEMATRICESGPU_H

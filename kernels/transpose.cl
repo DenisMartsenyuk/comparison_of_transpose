@@ -1,23 +1,19 @@
 #define BLOCK_SIZE 16
 
 __kernel void simple_transpose_float( __global float* matrix, __global float* result, const int rows, const int columns) {
-    int col = get_global_id(0);
-    int row = get_global_id(1);
-    if (col >= columns || row >= rows) {
-        return;
+    int x = get_global_id(0);
+    int y = get_global_id(1);
+    if (x < columns && y < rows) {
+        result[x * rows + y] = matrix[y * columns + x];
     }
-    float element = matrix[row * columns + col];
-    result[col * rows + row] = element;
 }
 
 __kernel void simple_transpose_double( __global double* matrix, __global double* result, const int rows, const int columns) {
-    int col = get_global_id(0);
-    int row = get_global_id(1);
-    if (col >= columns || row >= rows) {
-        return;
+    int x = get_global_id(0);
+    int y = get_global_id(1);
+    if (x < columns && y < rows) {
+        result[x * rows + y] = matrix[y * columns + x];
     }
-    float element = matrix[row * columns + col];
-    result[col * rows + row] = element;
 }
 
 __kernel void optimization_1_transpose_float(__global const float* matrix, __global float* result, const int rows, const int cols) {
