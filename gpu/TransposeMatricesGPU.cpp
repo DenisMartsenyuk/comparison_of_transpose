@@ -57,8 +57,8 @@ void TransposeMatricesGPU::setWorkGroupAndWorkItems(int rowsWorkGroup, int colum
                                                          int columnsMatrix) {
     int rowsWorkItems = ceil(rowsMatrix * 1.0 / rowsWorkGroup) * rowsWorkGroup;
     int columnsWorkItems = ceil(columnsMatrix * 1.0 / columnsWorkGroup) * columnsWorkGroup;
-    workItems = cl::NDRange(rowsWorkItems, columnsWorkItems);
-    workGroup = cl::NDRange(rowsWorkGroup, columnsWorkGroup);
+    workItems = cl::NDRange(ceil(rowsMatrix * columnsMatrix * 1.0 / (rowsWorkGroup * columnsWorkGroup)) * rowsWorkGroup * columnsWorkGroup); //rowsWorkItems, columnsWorkItems
+    workGroup = cl::NDRange(rowsWorkGroup * columnsWorkGroup); //rowsWorkGroup,  columnsWorkGroup
 }
 
 void TransposeMatricesGPU::setKernel(std::string nameKernel) {

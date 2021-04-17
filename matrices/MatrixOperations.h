@@ -31,6 +31,9 @@ void MatrixOperations::generateMatrix(T *matrix, int rows, int columns) {
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < columns; j++) {
             matrix[i * columns + j] = rand() / (T)RAND_MAX;
+//            if (matrix[i * columns + j] < - 1.0) {
+//                matrix[i * columns + j] = 1;
+//            }
 //            matrix[i * columns + j] = counter; //todo  проверяй всегда
             counter++;
         }
@@ -42,7 +45,7 @@ bool MatrixOperations::compareMatrices(T *matrixA, T *matrixB, int rows, int col
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < columns; j++) {
             if (abs(matrixA[i * columns + j] - matrixB[i * columns + j]) > 0.01) {
-                std::cout << "True: " << matrixA[i * columns + j] << " Nottrue " << matrixB[i * columns + j] << std::endl;
+//                std::cout << "True: " << matrixA[i * columns + j] << " Nottrue " << matrixB[i * columns + j] << std::endl;
                 return false;
             }
         }
